@@ -3,16 +3,22 @@ $(document).ready(function(){
 		width = 920 - margin.left - margin.rigth,
 		height = 600 - margin.top - margin.botton;
 
-	var svg = d3.select('.heatMap')
-				.append('svg')
-				.attr('width', width + margin.left + margin.rigth)
-				.attr('height', height + margin.top + margin.botton)
-				.append('g');
+	var section = d3.select('.container')
+					.append('section');
 
 	// Title
-	svg.append('text')
-	   .attr('id', 'title')
-	   .attr('x', width/2)
-	   .attr('y', margin.top / 2)
-	   .text('Monthly Global Land-Surface Temperature');
+	var heading = section.append('heading');
+	heading.append('h1')
+			.attr('id', 'title')
+			.text('Monthly Global Land-Surface Temperature');
+
+	heading.append('h3')
+			.attr('id', 'description')
+			.html('Description');
+
+	var svg = section.append('svg')
+					.attr('width', width + margin.left + margin.rigth)
+					.attr('height', height + margin.top + margin.botton)
+					.append('g');
+
 });
