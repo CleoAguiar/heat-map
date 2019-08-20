@@ -22,6 +22,13 @@ $(document).ready(function(){
 					.attr('height', height + margin.top + margin.botton)
 					.append('g');
 
+	var colors = d3.scaleLinear()
+					.range(["white", "#69b37d"])
+					.domain([0,4]);
+	
+	// var array = d3.range(4).map(d=> colors(d));
+	// console.log(array);
+
 	d3.json(url).then(function(data){
 		// xAxis
 		svg.append('g')
