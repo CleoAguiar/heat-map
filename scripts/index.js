@@ -24,7 +24,7 @@ $(document).ready(function () {
 
 	var colors = d3.scaleLinear()
 		.range(['white', '#69b37d'])
-		.domain([-1000, 1000]);
+		.domain([0, 3]);
 
 	d3.json(url).then(function (data) {
 		console.log(data);
@@ -75,7 +75,7 @@ $(document).ready(function () {
 			.attr('y', (element, i) => yScale(element.month))
 			.attr('width', xScale.bandwidth())
 			.attr('height', yScale.bandwidth)
-
+			.style('fill', (element, i)=> colors(data.baseTemperature + element.variance))
 			// .attr({
 			// 	x: (element, i) => xScale(element.year),
 			// 	y: (element, i) => yScale(element.month),
