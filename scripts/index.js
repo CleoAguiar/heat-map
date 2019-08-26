@@ -30,7 +30,7 @@ $(document).ready(function () {
 		console.log(data);
 		// yAxis
 		var yScale = d3.scaleBand()
-			.range([height, 0])
+			.rangeRound([height, 0])
 			.domain([...Array(12).keys()]);
 
 		var yAxis = d3.axisLeft(yScale)
@@ -49,7 +49,7 @@ $(document).ready(function () {
 
 		// xAxis
 		var xScale = d3.scaleBand()
-			.range([0, width])
+			.rangeRound([0, width])
 			.domain(data.monthlyVariance.map(val => val.year));
 
 		var xAxis = d3.axisBottom(xScale)
@@ -71,6 +71,11 @@ $(document).ready(function () {
 			.attr('data-month', element => element.month)
 			.attr('data-year', element => element.year)
 			.attr('data-temp', element => data.baseTemperature + element.variance)
+			.attr('x', (element, i) => xScale(element.year))
+			.attr('y', (element, i) => yScale(element.month))
+			.attr('width', xScale.bandwidth())
+			.attr('height', yScale.bandwidth)
+
 			// .attr({
 			// 	x: (element, i) => xScale(element.year),
 			// 	y: (element, i) => yScale(element.month),
