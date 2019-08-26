@@ -23,7 +23,8 @@ $(document).ready(function () {
 		.append('g');
 
 	var colors = d3.scaleLinear()
-		.range(['white', '#69b37d']);
+		.range(['white', '#69b37d'])
+		.domain([-1000, 1000]);
 
 	d3.json(url).then(function (data) {
 		console.log(data);
@@ -59,5 +60,22 @@ $(document).ready(function () {
 			.attr('id', 'x-axis')
 			.call(xAxis)
 			.attr('transform', 'translate(' + margin.left + ',' + (height + margin.top) + ')');
+
+		svg.append('g')
+			.classed('map', true)
+			.attr('transform', 'translate(' + margin.left + ',' + (height + margin.top) + ')')
+			.selectAll('rect')
+			.data(data.monthlyVariance)
+			.enter().append('rect')
+			.attr('class', 'cell')
+			.attr('data-month', element => element.month)
+			.attr('data-year', element => element.year)
+			.attr('data-temp', element => data.baseTemperature + element.variance)
+			// .attr({
+			// 	x: (element, i) => xScale(element.year),
+			// 	y: (element, i) => yScale(element.month),
+			// 	width: (element, i) => xScale.range(element.year),
+			// 	height: (element, i) => yScale.range(element.month)
+			// });
 	});
 });
