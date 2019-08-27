@@ -1,8 +1,8 @@
 $(document).ready(function () {
 	var url = 'https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json';
-	var margin = { top: 100, botton: 30, left: 60, rigth: 20 },
-		width = 920 - margin.left - margin.rigth,
-		height = 600 - margin.top - margin.botton;
+	var padding = { top: 100, botton: 30, left: 60, rigth: 20 },
+		width = 920 - padding.left - padding.rigth,
+		height = 600 - padding.top - padding.botton;
 
 	var section = d3.select('.container')
 		.append('section');
@@ -18,8 +18,8 @@ $(document).ready(function () {
 		.html('Description');
 
 	var svg = section.append('svg')
-		.attr('width', width + margin.left + margin.rigth)
-		.attr('height', height + margin.top + margin.botton)
+		.attr('width', width + padding.left + padding.rigth)
+		.attr('height', height + padding.top + padding.botton)
 		.append('g');
 
 	var colors = d3.scaleLinear()
@@ -27,10 +27,10 @@ $(document).ready(function () {
 		.domain([0, 3]);
 
 	d3.json(url).then(function (data) {
-		console.log(data);
+		console.log(data.monthlyVariance);
 		// yAxis
 		var yScale = d3.scaleBand()
-			.rangeRound([height, 0])
+			.rangeRound([0, height])
 			.domain([...Array(12).keys()]);
 
 		var yAxis = d3.axisLeft(yScale)
@@ -45,7 +45,7 @@ $(document).ready(function () {
 			.attr('class', 'y-axis')
 			.attr('id', 'y-axis')
 			.call(yAxis)
-			.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+			.attr('transform', 'translate(' + padding.left + ',' + padding.top + ')');
 
 		// xAxis
 		var xScale = d3.scaleBand()
@@ -59,11 +59,11 @@ $(document).ready(function () {
 			.attr('class', 'x-axis')
 			.attr('id', 'x-axis')
 			.call(xAxis)
-			.attr('transform', 'translate(' + margin.left + ',' + (height + margin.top) + ')');
+			.attr('transform', 'translate(' + padding.left + ',' + (height + padding.top) + ')');
 
 		svg.append('g')
 			.classed('map', true)
-			.attr('transform', 'translate(' + margin.left + ',' + (height + margin.top) + ')')
+			.attr('transform', 'translate(' + padding.left + ',' + padding.top + ')')
 			.selectAll('rect')
 			.data(data.monthlyVariance)
 			.enter().append('rect')
@@ -74,13 +74,7 @@ $(document).ready(function () {
 			.attr('x', (element, i) => xScale(element.year))
 			.attr('y', (element, i) => yScale(element.month))
 			.attr('width', xScale.bandwidth())
-			.attr('height', yScale.bandwidth)
-			.style('fill', (element, i)=> colors(data.baseTemperature + element.variance))
-			// .attr({
-			// 	x: (element, i) => xScale(element.year),
-			// 	y: (element, i) => yScale(element.month),
-			// 	width: (element, i) => xScale.range(element.year),
-			// 	height: (element, i) => yScale.range(element.month)
-			// });
+			.attr('height', yScale.bandwidth())
+			.attr('fill', (element, i) => colors(data.baseTemperature + element.variance))
 	});
 });
