@@ -1,6 +1,6 @@
 $(document).ready(function () {
 	var url = 'https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json';
-	var padding = { top: 100, botton: 30, left: 60, rigth: 20 },
+	var padding = { top: 100, botton: 30, left: 105, rigth: 20 },
 		width = 920 - padding.left - padding.rigth,
 		height = 600 - padding.top - padding.botton;
 
@@ -31,7 +31,7 @@ $(document).ready(function () {
 		// yAxis
 		var yScale = d3.scaleBand()
 			.rangeRound([0, height])
-			.domain([...Array(12).keys()]);
+			.domain([...Array.from({ length: 12 }, (v, k) => k + 1)]);
 
 		var yAxis = d3.axisLeft(yScale)
 			.tickValues(yScale.domain())
@@ -71,10 +71,10 @@ $(document).ready(function () {
 			.attr('data-month', element => element.month)
 			.attr('data-year', element => element.year)
 			.attr('data-temp', element => data.baseTemperature + element.variance)
-			.attr('x', (element, i) => xScale(element.year))
-			.attr('y', (element, i) => yScale(element.month))
+			.attr('x', (element) => xScale(element.year))
+			.attr('y', (element) => yScale(element.month))
 			.attr('width', xScale.bandwidth())
 			.attr('height', yScale.bandwidth())
-			.attr('fill', (element, i) => colors(data.baseTemperature + element.variance))
+			.attr('fill', (element, i) => colors(data.baseTemperature + element.variance));
 	});
 });
